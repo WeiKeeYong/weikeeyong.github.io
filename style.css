@@ -36,3 +36,32 @@ a {
     color: #4CAF50;
     text-decoration: none;
 }
+
+/* Responsive design for mobile devices */
+@media only screen and (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 0.5em;
+    }
+
+    section {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    li {
+        font-size: 0.9em;
+        margin-bottom: 8px;
+    }
+}
