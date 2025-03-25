@@ -1,88 +1,274 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+    /* Color Scheme */
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --accent-color: #3b82f6;
+    --text-color: #333;
+    --light-bg: #f7f9fc;
+    --card-bg: #ffffff;
+    
+    /* Spacing System */
+    --space-unit: 1rem;
+    --space-xxs: calc(0.25 * var(--space-unit));
+    --space-xs: calc(0.5 * var(--space-unit));
+    --space-sm: calc(0.75 * var(--space-unit));
+    --space-md: calc(1.25 * var(--space-unit));
+    --space-lg: calc(2 * var(--space-unit));
+    --space-xl: calc(3.25 * var(--space-unit));
+    --space-xxl: calc(5 * var(--space-unit));
+    
+    /* Effects */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #f7f9fc;
-    color: #333;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
 }
 
 header {
-    background-color: #3b5998; /* Changed to a deep blue for aesthetic quality */
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 1.5em;
+    padding: var(--space-xl) 0;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    box-shadow: var(--shadow);
 }
 
-section {
-    margin: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Elevates sections visually */
-    transition: transform 0.3s;
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-xs);
+    font-weight: 700;
 }
 
-section:hover {
-    transform: translateY(-5px); /* Adds a hover effect */
+.tagline {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 300;
 }
 
-h1 {
-    font-size: 2em;
-    margin-bottom: 0.2em;
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: var(--space-xxl) var(--space-md);
+    border-radius: var(--border-radius);
+    margin: var(--space-xl) 0;
+    text-align: center;
 }
 
-h2 {
-    font-size: 1.5em;
-    color: #2c3e50; /* Darker shade for headings */
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.hero p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.9;
 }
 
-li {
-    font-size: 1em;
-    margin-bottom: 10px;
-    line-height: 1.6;
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    margin: var(--space-xl) 0;
 }
 
-a {
-    color: #3b5998;
-    text-decoration: none;
+.card {
+    background-color: var(--card-bg);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--accent-color);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-sm);
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--space-md);
+    font-size: 1.8rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: var(--space-xs);
+}
+
+.card h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+
+/* Fixed Bullet Points - All Blue */
+.card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: var(--space-md);
+}
+
+.card li {
+    position: relative;
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-xs);
+}
+
+.card li::before {
+    content: "•";
+    color: var(--accent-color);
     font-weight: bold;
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
 }
 
-a:hover {
-    text-decoration: underline;
+.card p {
+    margin-bottom: var(--space-md);
 }
 
-/* Responsive design for mobile devices */
-@media only screen and (max-width: 600px) {
-    body {
-        padding: 5px;
-    }
+.linkedin-btn {
+    display: inline-block;
+    background-color: #0a66c2;
+    color: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-top: var(--space-sm);
+}
 
-    header {
-        padding: 1em;
-    }
+.linkedin-btn:hover {
+    background-color: #004182;
+}
 
-    section {
-        margin: 10px;
-        padding: 15px;
-    }
+footer {
+    text-align: center;
+    padding: var(--space-lg) 0;
+    margin-top: var(--space-xl);
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+}
 
-    h1 {
-        font-size: 1.8em;
+/* Tablet Layout (768px and up) */
+@media (min-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-lg);
     }
-
-    h2 {
-        font-size: 1.3em;
+    
+    .professional-summary {
+        grid-column: span 2;
     }
+    
+    .hero h2 {
+        font-size: 2.5rem;
+    }
+}
 
-    li {
-        font-size: 0.9em;
-        margin-bottom: 8px;
+/* Desktop Layout (1200px and up) */
+@media (min-width: 1200px) {
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .professional-summary {
+        grid-column: span 3;
+    }
+    
+    .interests, .online-profile {
+        grid-column: span 1;
+    }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+    :root {
+        --space-unit: 0.9rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .hero {
+        padding: var(--space-xl) var(--space-md);
+        margin: var(--space-lg) 0;
+    }
+    
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+    
+    .card h2 {
+        font-size: 1.6rem;
+    }
+    
+    .card-grid {
+        gap: var(--space-lg);
+    }
+}
+
+/* Small Mobile Adjustments */
+@media (max-width: 480px) {
+    :root {
+        --space-unit: 0.8rem;
+    }
+    
+    .container {
+        padding: 0 var(--space-sm);
+    }
+    
+    .card {
+        padding: var(--space-md);
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .tagline {
+        font-size: 1rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
     }
 }
