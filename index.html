@@ -3,44 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Yong Wei Kee | Tech Leader</title>
+    <meta name="description" content="Yong Wei Kee - Technology Leader with nearly 30 years of experience">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Yong Wei Kee | Tech Leader | Innovator | AI Enthusiast</title>
 </head>
 <body>
     <header>
         <div class="container">
             <h1>Yong Wei Kee</h1>
-            <p>Technology Leader | Innovator | AI Enthusiast</p>
+            <p class="tagline">Technology Leader | Innovator | AI Enthusiast</p>
         </div>
     </header>
     <main class="container">
-        <section class="card">
-            <h2>Professional Summary</h2>
-            <p>Technology leader with nearly 30 years of experience leading interdisciplinary teams and delivering high-impact technology initiatives. Expert in stakeholder management, Agile methodologies, and emerging technologies.</p>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Transforming Technology with 30 Years of Leadership</h2>
+                <p>Driving innovation through strategic technology solutions and team empowerment</p>
+            </div>
         </section>
-        <section class="card">
-            <h2>Achievements</h2>
-            <ul>
-                <li>Implemented CRM solutions for enhanced customer engagement.</li>
-                <li>Led GenAI adoption to improve workflow efficiency.</li>
-                <li>Drove Agile transformation, increasing team productivity by ~50%.</li>
-                <li>Integrated advanced payment solutions for security and efficiency.</li>
-                <li>Replaced manual workflows with Jira & Confluence.</li>
-            </ul>
-        </section>
-        <section class="card">
-            <h2>Interests</h2>
-            <ul>
-                <li>IoT with Raspberry Pi & Arduino</li>
-                <li>Machine Learning & Computer Vision</li>
-                <li>AI Testing & Automation</li>
-                <li>Cooking & Gardening</li>
-            </ul>
-        </section>
-        <section class="card">
-            <h2>Online Profile</h2>
-            <p>Connect with me on <a href="https://www.linkedin.com/in/weikee/" target="_blank">LinkedIn</a>.</p>
-        </section>
+        
+        <div class="card-grid">
+            <section class="card professional-summary">
+                <div class="card-icon">👨‍💻</div>
+                <h2>About Me</h2>
+                <p>Technology leader with nearly 30 years of experience leading interdisciplinary teams and delivering high-impact technology initiatives. Expert in stakeholder management, Agile methodologies, and emerging technologies.</p>
+            </section>
+            
+            <section class="card achievements">
+                <div class="card-icon">🏆</div>
+                <h2>Achievements</h2>
+                <ul>
+                    <li>Implemented CRM solutions for enhanced customer engagement.</li>
+                    <li>Led GenAI adoption to improve workflow efficiency.</li>
+                    <li>Drove Agile transformation, increasing team productivity by ~50%.</li>
+                    <li>Integrated advanced payment solutions for security and efficiency.</li>
+                    <li>Replaced manual workflows with Jira & Confluence.</li>
+                </ul>
+            </section>
+            
+            <section class="card interests">
+                <div class="card-icon">❤️</div>
+                <h2>Interests</h2>
+                <ul>
+                    <li>IoT with Raspberry Pi & Arduino</li>
+                    <li>Machine Learning & Computer Vision</li>
+                    <li>AI Testing & Automation</li>
+                    <li>Cooking & Gardening</li>
+                </ul>
+            </section>
+            
+            <section class="card online-profile">
+                <div class="card-icon">🌐</div>
+                <h2>Online Profile</h2>
+                <p>Connect with me on <a href="https://www.linkedin.com/in/weikee/" target="_blank" class="linkedin-btn">LinkedIn</a>.</p>
+            </section>
+        </div>
     </main>
+    <footer class="container">
+        <p>&copy; <span id="current-year">2023</span> Yong Wei Kee. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
