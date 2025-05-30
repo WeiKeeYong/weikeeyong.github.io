@@ -13,6 +13,7 @@
     <title>Yong Wei Kee | Tech Leader | Innovator | AI Enthusiast</title>
     <style>
         /* Optional: Customize chat widget appearance */
+        /* More aggressive n8n chat font sizing */
         .n8n-chat-container {
             font-family: 'Poppins', sans-serif;
             border-radius: 8px;
@@ -24,24 +25,58 @@
             z-index: 1000;
             font-size: 10px !important;
         }
-        .n8n-chat-container * {
+        
+        /* Target all possible n8n elements */
+        [class*="n8n"] {
             font-size: 10px !important;
         }
-        .n8n-chat-header {
-            background-color: #333;
-            color: #fff;
-            font-weight: 600;
+        
+        [class*="n8n"] * {
             font-size: 10px !important;
         }
-        .n8n-chat-input {
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        
+        [class*="chat"] {
             font-size: 10px !important;
         }
+        
+        [class*="chat"] * {
+            font-size: 10px !important;
+        }
+        
+        /* Nuclear option - target the fixed position chat widget */
+        div[style*="position: fixed"][style*="bottom"][style*="right"] {
+            font-size: 10px !important;
+        }
+        
+        div[style*="position: fixed"][style*="bottom"][style*="right"] * {
+            font-size: 10px !important;
+        }
+        
+        /* Target common chat widget elements */
+        .n8n-chat-container,
+        .n8n-chat-header,
+        .n8n-chat-messages,
+        .n8n-chat-message,
+        .n8n-chat-input,
         .n8n-chat-button {
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
+            font-size: 10px !important;
+        }
+        
+        .n8n-chat-container *,
+        .n8n-chat-header *,
+        .n8n-chat-messages *,
+        .n8n-chat-message *,
+        .n8n-chat-input *,
+        .n8n-chat-button * {
+            font-size: 10px !important;
+        }
+        
+        /* Target by tag types that might be used */
+        div[class*="n8n"] p,
+        div[class*="n8n"] span,
+        div[class*="n8n"] div,
+        div[class*="n8n"] input,
+        div[class*="n8n"] button {
             font-size: 10px !important;
         }
     </style>
