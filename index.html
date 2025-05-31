@@ -78,6 +78,27 @@
     
     	createChat({
     		webhookUrl: 'https://n8n.yongdomain.com/webhook/0b27a903-1b69-455a-8daf-fcfe74656a16/chat'
+            	target: '#n8n-chat',
+            	mode: 'window',
+            	chatInputKey: 'chatInput',
+            	chatSessionKey: 'sessionId',
+            	metadata: {},
+            	showWelcomeScreen: false,
+            	defaultLanguage: 'en',
+            	initialMessages: [
+            		'Hello👋',
+            		'I am YWK Bot. How can I assist you today?'
+            	],
+            	i18n: {
+            		en: {
+            			title: 'YWK Bot',
+            			subtitle: "Start a chat. We're here to help you 24/7.",
+            			footer: '',
+            			getStarted: 'New Conversation',
+            			inputPlaceholder: 'Type your question..',
+            		},
+            	},
+
     	});
     </script>
     
