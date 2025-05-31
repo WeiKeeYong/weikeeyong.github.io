@@ -11,75 +11,7 @@
     <!-- n8n chat widget stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
     <title>Yong Wei Kee | Tech Leader | Innovator | AI Enthusiast</title>
-    <style>
-        /* Optional: Customize chat widget appearance */
-        /* More aggressive n8n chat font sizing */
-        .n8n-chat-container {
-            font-family: 'Poppins', sans-serif;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            max-width: 400px;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            font-size: 12px !important;
-        }
-        
-        /* Target all possible n8n elements */
-        [class*="n8n"] {
-            font-size: 12px !important;
-        }
-        
-        [class*="n8n"] * {
-            font-size: 12px !important;
-        }
-        
-        [class*="chat"] {
-            font-size: 12px !important;
-        }
-        
-        [class*="chat"] * {
-            font-size: 12px !important;
-        }
-        
-        /* Nuclear option - target the fixed position chat widget */
-        div[style*="position: fixed"][style*="bottom"][style*="right"] {
-            font-size: 10px !important;
-        }
-        
-        div[style*="position: fixed"][style*="bottom"][style*="right"] * {
-            font-size: 10px !important;
-        }
-        
-        /* Target common chat widget elements */
-        .n8n-chat-container,
-        .n8n-chat-header,
-        .n8n-chat-messages,
-        .n8n-chat-message,
-        .n8n-chat-input,
-        .n8n-chat-button {
-            font-size: 12px !important;
-        }
-        
-        .n8n-chat-container *,
-        .n8n-chat-header *,
-        .n8n-chat-messages *,
-        .n8n-chat-message *,
-        .n8n-chat-input *,
-        .n8n-chat-button * {
-            font-size: 12px !important;
-        }
-        
-        /* Target by tag types that might be used */
-        div[class*="n8n"] p,
-        div[class*="n8n"] span,
-        div[class*="n8n"] div,
-        div[class*="n8n"] input,
-        div[class*="n8n"] button {
-            font-size: 12px !important;
-        }
-    </style>
+
 </head>
 <body>
     <header>
@@ -140,15 +72,15 @@
     </footer>
 
     <!-- n8n chat widget script -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
     <script type="module">
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-        createChat({
-            webhookUrl: 'https://n8n.yongdomain.com/webhook/0b27a903-1b69-455a-8daf-fcfe74656a16/chat',
-            mode: 'window', // Floating chat window
-            initialMessages: [{ role: 'assistant', content: 'Hi! I’m Yong’s AI Chatbot. Ask me about chatbot creation or tech solutions!' }]
-        });
-    </script> 
-
+    	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    
+    	createChat({
+    		webhookUrl: 'https://n8n.yongdomain.com/webhook/0b27a903-1b69-455a-8daf-fcfe74656a16/chat'
+    	});
+    </script>
+    
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
