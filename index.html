@@ -283,23 +283,26 @@
             }
         }
 
-        // Main initialization with proper error handling
+        // Main initialization - check webhook FIRST
         async function initializePage() {
-            // First, try to initialize chat and see if it works
-            const chatInitialized = initializeChat();
+            // Start with offline status
+            updateChatStatus(false);
             
-            if (chatInitialized) {
-                // Give it a moment, then check if there are connection errors
-                setTimeout(async () => {
-                    const isWebhookWorking = await checkWebhookStatus();
-                    if (isWebhookWorking) {
-                        updateChatStatus(true);
-                    } else {
-                        destroyChat();
-                        updateChatStatus(false);
-                    }
-                }, 2000);
+            // Check webhook availability first
+            console.log('Checking webhook status...');
+            const isWebhookWorking = await checkWebhookStatus();
+            
+            if (isWebhookWorking) {
+                console.log('Webhook is online, initializing chat...');
+                const chatInitialized = initializeChat();
+                if (chatInitialized) {
+                    updateChatStatus(true);
+                } else {
+                    console.log('Chat initialization failed');
+                    updateChatStatus(false);
+                }
             } else {
+                console.log('Webhook is offline, chat disabled');
                 updateChatStatus(false);
             }
         }
