@@ -75,6 +75,35 @@
         --chat--toggle--color: var(--chat--color-white);
         --chat--toggle--size: 64px;
     }
+
+    /* Chat status indicator */
+    .chat-status {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #ef4444;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        display: none;
+    }
+
+    .chat-status.offline {
+        display: block;
+    }
+
+    .chat-status.online {
+        background: #22c55e;
+        display: block;
+    }
+
+    /* Hide chat when offline */
+    #n8n-chat.chat-offline {
+        display: none !important;
+    }
     </style>
     
     <title>Yong Wei Kee | Tech Leader | Innovator | AI Enthusiast</title>
@@ -137,6 +166,11 @@
     <!-- Chat container - this is where the chat will appear -->
     <div id="n8n-chat"></div>
     
+    <!-- Chat status indicator -->
+    <div id="chat-status" class="chat-status">
+        Chat is currently offline
+    </div>
+    
     <footer class="container">
         <p>© <span id="current-year">2023</span> Yong Wei Kee. All rights reserved.</p>
     </footer>
@@ -145,29 +179,115 @@
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-        createChat({
-            webhookUrl: 'https://n8n.yongdomain.com/webhook/0b27a903-1b69-455a-8daf-fcfe74656a16/chat',
-            target: '#n8n-chat',
-            mode: 'window',
-            chatInputKey: 'chatInput',
-            chatSessionKey: 'sessionId',
-            metadata: {},
-            showWelcomeScreen: false,
-            defaultLanguage: 'en',
-            initialMessages: [
-                '👋 Hello',
-                'I am YWK Bot. How can I assist you today?'
-            ],
-            i18n: {
-                en: {
-                    title: 'YWK Bot',
-                    subtitle: "Start a chat. We're here to help you 24/7.",
-                    footer: '',
-                    getStarted: 'New Conversation',
-                    inputPlaceholder: 'Type your question..',
+        const webhookUrl = 'https://n8n.yongdomain.com/webhook/0b27a903-1b69-455a-8daf-fcfe74656a16/chat';
+        const chatContainer = document.getElementById('n8n-chat');
+        const statusIndicator = document.getElementById('chat-status');
+
+        // Function to check if webhook is available
+        async function checkWebhookStatus() {
+            try {
+                // Use a HEAD request to check if endpoint exists without sending data
+                const response = await fetch(webhookUrl, {
+                    method: 'HEAD',
+                    mode: 'no-cors' // This prevents CORS issues but limits response info
+                });
+                
+                // Alternative: Try a simple OPTIONS request
+                // const response = await fetch(webhookUrl, { method: 'OPTIONS' });
+                
+                return true; // If no error thrown, assume it's available
+            } catch (error) {
+                console.log('Webhook check failed:', error);
+                return false;
+            }
+        }
+
+        // Function to initialize chat
+        function initializeChat() {
+            createChat({
+                webhookUrl: webhookUrl,
+                target: '#n8n-chat',
+                mode: 'window',
+                chatInputKey: 'chatInput',
+                chatSessionKey: 'sessionId',
+                metadata: {},
+                showWelcomeScreen: false,
+                defaultLanguage: 'en',
+                initialMessages: [
+                    '👋 Hello',
+                    'I am YWK Bot. How can I assist you today?'
+                ],
+                i18n: {
+                    en: {
+                        title: 'YWK Bot',
+                        subtitle: "Start a chat. We're here to help you 24/7.",
+                        footer: '',
+                        getStarted: 'New Conversation',
+                        inputPlaceholder: 'Type your question..',
+                    },
                 },
-            },
-        });
+            });
+        }
+
+        // Function to update chat status
+        function updateChatStatus(isOnline) {
+            if (isOnline) {
+                chatContainer.classList.remove('chat-offline');
+                statusIndicator.className = 'chat-status online';
+                statusIndicator.textContent = 'Chat is online';
+                // Hide status after 3 seconds if online
+                setTimeout(() => {
+                    statusIndicator.style.display = 'none';
+                }, 3000);
+            } else {
+                chatContainer.classList.add('chat-offline');
+                statusIndicator.className = 'chat-status offline';
+                statusIndicator.textContent = 'Chat is currently offline';
+                statusIndicator.style.display = 'block';
+            }
+        }
+
+        // Main initialization
+        async function initializePage() {
+            const isWebhookAvailable = await checkWebhookStatus();
+            
+            if (isWebhookAvailable) {
+                initializeChat();
+                updateChatStatus(true);
+            } else {
+                updateChatStatus(false);
+            }
+        }
+
+        // Alternative: Simpler approach - just try to initialize and handle errors
+        function initializeWithErrorHandling() {
+            try {
+                initializeChat();
+                updateChatStatus(true);
+            } catch (error) {
+                console.error('Chat initialization failed:', error);
+                updateChatStatus(false);
+            }
+        }
+
+        // Check status periodically (every 30 seconds)
+        setInterval(async () => {
+            const isOnline = await checkWebhookStatus();
+            if (isOnline && chatContainer.classList.contains('chat-offline')) {
+                // Webhook came back online, reinitialize chat
+                initializeChat();
+                updateChatStatus(true);
+            } else if (!isOnline && !chatContainer.classList.contains('chat-offline')) {
+                // Webhook went offline
+                updateChatStatus(false);
+            }
+        }, 30000);
+
+        // Initialize on page load
+        initializePage();
+        
+        // Alternative simpler initialization (uncomment if the above doesn't work well):
+        // initializeWithErrorHandling();
     </script>
     
     <script>
