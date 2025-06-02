@@ -183,50 +183,84 @@
         const chatContainer = document.getElementById('n8n-chat');
         const statusIndicator = document.getElementById('chat-status');
 
-        // Function to check if webhook is available
+        let chatInstance = null;
+        let isChecking = false;
+
+        // Function to check webhook status by attempting a simple test message
         async function checkWebhookStatus() {
+            if (isChecking) return false;
+            isChecking = true;
+            
             try {
-                // Use a HEAD request to check if endpoint exists without sending data
                 const response = await fetch(webhookUrl, {
-                    method: 'HEAD',
-                    mode: 'no-cors' // This prevents CORS issues but limits response info
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'ping',
+                        chatInput: 'test-connection',
+                        sessionId: 'health-check'
+                    })
                 });
                 
-                // Alternative: Try a simple OPTIONS request
-                // const response = await fetch(webhookUrl, { method: 'OPTIONS' });
-                
-                return true; // If no error thrown, assume it's available
+                isChecking = false;
+                // If we get any response (even error), the server is accessible
+                return response.status < 500;
             } catch (error) {
-                console.log('Webhook check failed:', error);
+                console.log('Webhook unreachable:', error.message);
+                isChecking = false;
                 return false;
             }
         }
 
         // Function to initialize chat
         function initializeChat() {
-            createChat({
-                webhookUrl: webhookUrl,
-                target: '#n8n-chat',
-                mode: 'window',
-                chatInputKey: 'chatInput',
-                chatSessionKey: 'sessionId',
-                metadata: {},
-                showWelcomeScreen: false,
-                defaultLanguage: 'en',
-                initialMessages: [
-                    '👋 Hello',
-                    'I am YWK Bot. How can I assist you today?'
-                ],
-                i18n: {
-                    en: {
-                        title: 'YWK Bot',
-                        subtitle: "Start a chat. We're here to help you 24/7.",
-                        footer: '',
-                        getStarted: 'New Conversation',
-                        inputPlaceholder: 'Type your question..',
+            if (chatInstance) return; // Prevent multiple instances
+            
+            try {
+                chatInstance = createChat({
+                    webhookUrl: webhookUrl,
+                    target: '#n8n-chat',
+                    mode: 'window',
+                    chatInputKey: 'chatInput',
+                    chatSessionKey: 'sessionId',
+                    metadata: {},
+                    showWelcomeScreen: false,
+                    defaultLanguage: 'en',
+                    initialMessages: [
+                        '👋 Hello',
+                        'I am YWK Bot. How can I assist you today?'
+                    ],
+                    i18n: {
+                        en: {
+                            title: 'YWK Bot',
+                            subtitle: "Start a chat. We're here to help you 24/7.",
+                            footer: '',
+                            getStarted: 'New Conversation',
+                            inputPlaceholder: 'Type your question..',
+                        },
                     },
-                },
-            });
+                });
+                return true;
+            } catch (error) {
+                console.error('Chat initialization failed:', error);
+                chatInstance = null;
+                return false;
+            }
+        }
+
+        // Function to destroy chat instance
+        function destroyChat() {
+            if (chatInstance) {
+                try {
+                    // Clear the chat container
+                    chatContainer.innerHTML = '';
+                    chatInstance = null;
+                } catch (error) {
+                    console.log('Error destroying chat:', error);
+                }
+            }
         }
 
         // Function to update chat status
@@ -237,7 +271,9 @@
                 statusIndicator.textContent = 'Chat is online';
                 // Hide status after 3 seconds if online
                 setTimeout(() => {
-                    statusIndicator.style.display = 'none';
+                    if (statusIndicator.className.includes('online')) {
+                        statusIndicator.style.display = 'none';
+                    }
                 }, 3000);
             } else {
                 chatContainer.classList.add('chat-offline');
@@ -247,47 +283,47 @@
             }
         }
 
-        // Main initialization
+        // Main initialization with proper error handling
         async function initializePage() {
-            const isWebhookAvailable = await checkWebhookStatus();
+            // First, try to initialize chat and see if it works
+            const chatInitialized = initializeChat();
             
-            if (isWebhookAvailable) {
-                initializeChat();
-                updateChatStatus(true);
+            if (chatInitialized) {
+                // Give it a moment, then check if there are connection errors
+                setTimeout(async () => {
+                    const isWebhookWorking = await checkWebhookStatus();
+                    if (isWebhookWorking) {
+                        updateChatStatus(true);
+                    } else {
+                        destroyChat();
+                        updateChatStatus(false);
+                    }
+                }, 2000);
             } else {
                 updateChatStatus(false);
             }
         }
 
-        // Alternative: Simpler approach - just try to initialize and handle errors
-        function initializeWithErrorHandling() {
-            try {
-                initializeChat();
-                updateChatStatus(true);
-            } catch (error) {
-                console.error('Chat initialization failed:', error);
-                updateChatStatus(false);
-            }
-        }
-
-        // Check status periodically (every 30 seconds)
+        // Monitor chat status periodically
         setInterval(async () => {
             const isOnline = await checkWebhookStatus();
-            if (isOnline && chatContainer.classList.contains('chat-offline')) {
+            const isChatOffline = chatContainer.classList.contains('chat-offline');
+            
+            if (isOnline && isChatOffline && !chatInstance) {
                 // Webhook came back online, reinitialize chat
-                initializeChat();
-                updateChatStatus(true);
-            } else if (!isOnline && !chatContainer.classList.contains('chat-offline')) {
-                // Webhook went offline
+                const initialized = initializeChat();
+                if (initialized) {
+                    updateChatStatus(true);
+                }
+            } else if (!isOnline && !isChatOffline && chatInstance) {
+                // Webhook went offline, destroy chat
+                destroyChat();
                 updateChatStatus(false);
             }
         }, 30000);
 
         // Initialize on page load
         initializePage();
-        
-        // Alternative simpler initialization (uncomment if the above doesn't work well):
-        // initializeWithErrorHandling();
     </script>
     
     <script>
